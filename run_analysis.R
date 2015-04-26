@@ -7,13 +7,14 @@
 
 #Initialize library
 library(dplyr)
+library(data.table)
 
 # Download and unzip the data set from the given source and extract it locally
 if (!file.exists("data_3.3")) {
   dir.create("data_3.3")
 }
 if (!file.exists("data_3.3/UCI HAR Dataset")) {
-  url < -"https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+  url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
   zipfile = "data_3.3/UCI_HAR_data.zip"
   download.file(url, destfile = zipfile, method = "curl")
   unzip(zipfile, exdir = "data_3.3")
@@ -56,7 +57,7 @@ test <- test[, -1]
 test <- select(test, contains("subject"), contains("Activity"), contains("mean"), contains("std"))
 
 # Combining test and train dat. Then summarize.
-run_analysis <- rbind(train4, test)
+run_analysis <- rbind(train, test)
 run_analysis <- (run_analysis %>%
                    group_by(subject, Activity) %>%
                    summarise_each(funs(mean)))
